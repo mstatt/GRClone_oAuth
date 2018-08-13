@@ -249,6 +249,10 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 				    $("#divOutput").append('<font color="#FF0000">>>>'+files[i]+' creation failed.</font>');
 			  });
 		}
+		$("#btn_cloneview").show(); //Allow users to go to their new repo
+                $("#btn_clonerepo").hide(); //Hide the button for the cloning process
+		$("#section_title").html('<font color="#007F00">Cloning completed successfully.</font>');
+		$("#divOutput").append('<br/><font color="#00FF00">>>>This application has been cloned tou your repository.</font>');
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
 		   console.log(response1);
