@@ -204,6 +204,11 @@ function getToken(thisOne){
         });
       });
 }
+
+	    
+	    
+	    
+	    
 function repoCreation(xToken,clreponame,xUser,xPath,){
     //Here the repo gets set up
     //console.log('User url :'+xPath);
@@ -228,9 +233,10 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		//console.log(response1);
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
-		for (i = 0; i < files.length; i++) {
-		repoFiles(xToken,contenturl,files[i],filecontent[i]);
-		}
+		//for (i = 0; i < files.length; i++) {
+		//repoFiles(xToken,contenturl,files[i],filecontent[i]);
+		UntilComplete(contenturl);
+		//}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
 		   console.log(response1);
@@ -270,6 +276,21 @@ function repoFiles(xToken,contenturl,filename,filecontent){
           });
   
 }
+	    
+async function UntilComplete(contenturl) {
+
+    //This loop will wait for each next() to pass the next iteration
+    for (var i = 0; i < files.length; i++) { 
+        await new Promise(next=> {
+            someAsyncTask(repoFiles(xToken,contenturl,files[i],filecontent[i]), function(err, data){
+                console.log('File generation completed');
+                next()
+            })
+        })        
+    }
+}	    
+	    
+	    
 function S4() {
     return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 }
