@@ -245,7 +245,7 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
 		for (i = 0; i < files.length; i++) {
-		   setTimeout(repoFiles(xToken,contenturl,files[i],filecontent[i]), 2500);
+		   setTimeout(repoFiles(xToken,contenturl,files[i],filecontent[i]), 5000);
 		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
@@ -260,7 +260,6 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
-	var r;
   var filemessage = "";
   var basecontent ="";
   var apiurl = "";
@@ -280,7 +279,7 @@ function repoFiles(xToken,contenturl,filename,filecontent){
             },
             data: filedata
         }).done(function(response3) {
-          //console.log('Response3: '+ response3);
+          console.log('Response3: '+ response3);
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
           }).fail(function (response3) {
@@ -288,7 +287,6 @@ function repoFiles(xToken,contenturl,filename,filecontent){
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
-	return r;
 }
 
 function S4() {
