@@ -259,12 +259,12 @@ function repoFiles(xToken,contenturl,filename,filecontent){
             },
             data: filedata
         }).done(function(response3) {
-          console.log('Response3: '+ response3);
+          //console.log('Response3: '+ response3);
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
 		//TO wait for completion
           }).fail(function (response3) {
-                    console.log(response3);
+                    //console.log(response3);
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
