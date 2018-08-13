@@ -153,6 +153,15 @@ html[xmlns] .clearfix { display: block; }
             $("#section_title").text('Almost ready');
             $("#divOutput").append('<font color="#00FF00">>>>Successful code reception from GitHub</font>');
             getToken(thisOne);
+	    //Load the contents of the files into a variables
+	          $.each(files, function(i,v){
+	            $.get(v, function (responseA) {
+	              //Add contents of files to the array
+	              // and encode the file contents
+	              filecontent.push(btoa(responseA));
+		      console.log('Encoded contents for: '+v);
+	            });
+	          });
             xUser = sessionStorage.getItem("xUser");
             xPath = sessionStorage.getItem("xPath");
           }else{
@@ -177,20 +186,6 @@ html[xmlns] .clearfix { display: block; }
 $("body").delegate("#btn_clonerepo", "click", function() {
           //Clear the output div
           $("#divOutput").html('');
-          //Load the contents of the files into a variables
-          $.each(files, function(i,v){
-            $.get(v, function (responseA) {
-              //Add contents of files to the array
-              filecontent.push(responseA);
-            });
-          });
-
-	/*
-	      filecontent = filecontent.map(function(x){ return x.replace('0a7796a29f4f1a47cb97','<YOURCLIENTID>') });
-	      filecontent = filecontent.map(function(x){ return x.replace('mstatt.000webhostapp.com','<YOURSECUREHOSTTEDPHPFILEURL>') });
-	      filecontent = filecontent.map(function(x){ return x.replace('mstatt',xUser) });
-	      filecontent = filecontent.map(function(x){ return x.replace('GRClone_oAuth',+clreponame) });
-	*/
           //Store values in session for access later
           xUser = sessionStorage.getItem("xUser");
           xPath = sessionStorage.getItem("xPath");
@@ -267,12 +262,10 @@ function repoFiles(xToken,contenturl,filename,filecontent){
   var apiurl = "";
   var filedata = "";
   filemessage = "Uploading file "+filename;
-  //Encode the file contents
-  basecontent = btoa(filecontent);
   //Get the path to the repo contents and append the filename
   apiurl = contenturl.replace('{+path}',filename);
   //console.log(apiurl);
-  filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
+  filedata = '{"message":"'+filemessage+'","content":"'+filecontent+'"}';
         $.ajax({
             url: apiurl,
             type: 'PUT',
@@ -291,7 +284,6 @@ function repoFiles(xToken,contenturl,filename,filecontent){
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
   
-	return basecontent;
 }
 
 function S4() {
