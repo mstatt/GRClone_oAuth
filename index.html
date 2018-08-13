@@ -242,7 +242,10 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
 		for (i = 0; i < files.length; i++) {
-			dfd.resolve(xToken,contenturl,files[i],filecontent[i]);
+			//Had to break so not to make numerous calls to api at once
+			$.when(repoFiles(xToken,contenturl,files[i],filecontent[i])).done(function(){
+				console.log('Posting contents for : '+filename+' has completed.');
+				});
 		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
@@ -253,9 +256,6 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 
 }
 
-// Create a deferred object
-var dfd = $.Deferred();
-.done(repoFiles(xToken,contenturl,filename,filecontent))
 	    
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
@@ -277,7 +277,7 @@ function repoFiles(xToken,contenturl,filename,filecontent){
             },
             data: filedata
         }).done(function(response3) {
-          console.log('Response3: '+ response3);
+          //console.log('Response3: '+ response3);
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
 		//TO wait for completion
