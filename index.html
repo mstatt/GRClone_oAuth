@@ -235,7 +235,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		//Loop to load files into to the repository
 		for (i = 0; i < files.length; i++) {
 		  //repoFiles(xToken,contenturl,files[i],filecontent[i]);
-		  console.log('Posting contents for : '+filename);
+		  console.log('Posting contents for : '+files[i]);
 		  var filemessage = "Uploading file "+files[i];
 		  //Get the path to the repo contents and append the filename
 		  var apiurl = contenturl.replace('{+path}',files[i]);
