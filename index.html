@@ -182,10 +182,12 @@ $("body").delegate("#btn_clonerepo", "click", function() {
             $.get(v, function (responseA) {
               //Add contents of files to the array
               filecontent.push(responseA);
+	      /*
 		filecontent[i] = filecontent[i].replace('0a7796a29f4f1a47cb97','<YOURCLIENTID>');
 		filecontent[i] = filecontent[i].replace('mstatt.000webhostapp.com','<YOURSECUREHOSTTEDPHPFILEURL>');
 		filecontent[i] = filecontent[i].replace('mstatt',xUser);
 		filecontent[i] = filecontent[i].replace('GRClone_oAuth',+clreponame); 
+	      */
             });
           });
 
@@ -261,6 +263,7 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
+	var r;
   var filemessage = "";
   var basecontent ="";
   var apiurl = "";
@@ -288,6 +291,7 @@ function repoFiles(xToken,contenturl,filename,filecontent){
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
+	return r;
 }
 
 function S4() {
