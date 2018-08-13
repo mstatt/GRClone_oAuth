@@ -232,15 +232,18 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
         data: data
 	    }).done(function(response1) {
 	       //console.log('Repository URL: '+response1.html_url);
-		//sessionStorage.setItem("cl_Url",response1.html_url);
+
 	      //Alert user to progress
 	      $("#divOutput").append('<br/><font color="#00FF00">Repository creation completed.</font>');
 		//console.log(response1);
 		 var cl_Url = response1.html_url;
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
-		for (i = 0; i < files.length; i++) {
-			repoFiles(xToken,cl_Url,files[i],filecontent[i]);
+		async function processArray(files){
+			for (i = 0; i < files.length; i++) {
+			    repoFiles(xToken,cl_Url,files[i],filecontent[i]);
+			    await delayedLong(i);
+			}
 		}
 		//------------------------------------------------------------------------------------------
 
@@ -253,7 +256,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 }
 
 	    
-function repoFiles(xToken,contenturl,filename,filecontent,_callback){
+function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
   var filemessage = "";
   var apiurl = "";
@@ -273,12 +276,10 @@ function repoFiles(xToken,contenturl,filename,filecontent,_callback){
             data: filedata
         }).done(function(response3) {
           //console.log('Response3: '+ response3);
-		_callback();
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
           }).fail(function (response3) {
                     console.log(response3);
-		_callback();
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
