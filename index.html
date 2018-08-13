@@ -168,14 +168,22 @@ html[xmlns] .clearfix { display: block; }
         $("body").delegate("#btn_oAuth", "click", function() {
           window.location.replace("https://github.com/login/oauth/authorize?client_id=0a7796a29f4f1a47cb97&scope=repo");
         });
+	    
+	//Click to view the new repository upon completion    
         $("body").delegate("#btn_cloneview", "click", function() {
 	//Get New Repo URl from session and appliy to click action
           var cl_Url = sessionStorage.getItem("cl_Url");
           window.location.replace(cl_Url);
         });
+	    
+	    
         //Clone repository process
 $("body").delegate("#btn_clonerepo", "click", function() {
-          //Clear the output div
+          //Disable button 
+	$('#btn_clonerepo').prop("disabled",true);
+	//Alert user to progress
+	$("#section_title").html('<font color="#00FF00">Now cloning this repository.</font>');
+	//Clear the output div
           $("#divOutput").html('');
           //Store values in session for access later
           xUser = sessionStorage.getItem("xUser");
@@ -183,6 +191,9 @@ $("body").delegate("#btn_clonerepo", "click", function() {
           //Initial function Call to clone repository
           repoCreation(xToken,clreponame,xUser,xPath);
 });
+	    
+
+	    
 function getToken(thisOne){
      //Here I post code and params back to a php page that forwards with credentials to GitHub in exchange for auth_token
       $.get('https://mstatt.000webhostapp.com/?code=' + thisOne, function (data) {
