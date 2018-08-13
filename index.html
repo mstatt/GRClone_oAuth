@@ -95,7 +95,7 @@ html[xmlns] .clearfix { display: block; }
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <h5 class="navbar-brand d-flex align-items-center">GRClone by Michael Stattelman</h5>
       <div>
-        <a class="btn btn-outline-primary align-items-right" href="https://github.com/mstatt/GRClone_Application"  target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> This Repository </a>&nbsp;
+        <a class="btn btn-outline-primary align-items-right" href="https://github.com/mstatt/GRClone_oAuth"  target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> This Repository </a>&nbsp;
         <a class="btn btn-outline-primary" href="https://github.com/" target="_blank" rel="noopener noreferrer">Sign Up <i class="fab fa-github"></i></a>
       </div>
     </div>
@@ -184,12 +184,13 @@ $("body").delegate("#btn_clonerepo", "click", function() {
               filecontent.push(responseA);
             });
           });
+	/*
 	filecontent[0] = filecontent[0].replace('0a7796a29f4f1a47cb97','<YOURCLIENTID>');
 	filecontent[2] = filecontent[2].replace('https://mstatt.000webhostapp.com/?code=','<YOURSECUREHOSTTEDPHPFILEURL>/?code=');
 	filecontent[1] = filecontent[1].replace('https://mstatt.000webhostapp.com/?code=','<YOURSECUREHOSTTEDPHPFILEURL>/?code=');
 	filecontent[1] = filecontent[1].replace('https://mstatt.github.io/GRClone_oAuth','https://'+xUser+'.github.io/'+clreponame);
 	filecontent[1] = filecontent[1].replace('https://yourusername.github.io/GRClone_oAuth/','https://'+xUser+'.github.io/'+clreponame); 
-	
+	*/
           //Store values in session for access later
           xUser = sessionStorage.getItem("xUser");
           xPath = sessionStorage.getItem("xPath");
