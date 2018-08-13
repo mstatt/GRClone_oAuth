@@ -116,7 +116,7 @@ html[xmlns] .clearfix { display: block; }
       </div>
     </div>
 
-   <script type="text/javascript">
+ <script type="text/javascript">
     $(function(){
       //Set up initial variables
             var xToken;
@@ -154,7 +154,9 @@ html[xmlns] .clearfix { display: block; }
 	          $.each(files, function(i,v){
 	            $.get(v, function (responseA) {
 	              //Add contents of files to the array
-	              filecontent.push(responseA);
+	              // and encode the file contents
+	              filecontent.push(btoa(responseA));
+		      console.log('Encoded contents for: '+v);
 	            });
 	          });
             xUser = sessionStorage.getItem("xUser");
@@ -218,16 +220,17 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
         data: data
 	    }).done(function(response1) {
 	       //console.log('Repository URL: '+response1.html_url);
+		sessionStorage.setItem("cl_Url",response1.html_url);
+    var contenturl = response1.contents_url;
+    console.log(contenturl);
 	      //Alert user to progress
 	      $("#divOutput").append('<br/><font color="#00FF00">Repository creation completed.</font>');
 		//console.log(response1);
-		 var cl_Url = response1.html_url;
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
-		$.each(files, function callback(){},function(i,v){
-		var responseA = repoFiles(xToken,cl_Url,v,filecontent[i]);
-		    callback(responseA);
-		});
+		for (i = 0; i < files.length; i++) {
+		repoFiles(xToken,contenturl,files[i],filecontent[i]);
+		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
 		   console.log(response1);
@@ -238,15 +241,16 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 	    
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
+  console.log('Posting contents for : '+filename);
   var filemessage = "";
+  var basecontent ="";
   var apiurl = "";
   var filedata = "";
   filemessage = "Uploading file "+filename;
-  var basecontent = btoa(filecontent);
   //Get the path to the repo contents and append the filename
   apiurl = contenturl.replace('{+path}',filename);
-  //console.log(apiurl);
-  filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
+  console.log('Next URL: '+apiurl);
+  filedata = '{"message":"'+filemessage+'","content":"'+filecontent+'"}';
         $.ajax({
             url: apiurl,
             type: 'PUT',
@@ -255,15 +259,16 @@ function repoFiles(xToken,contenturl,filename,filecontent){
             },
             data: filedata
         }).done(function(response3) {
-          //console.log('Response3: '+ response3);
+          console.log('Response3: '+ response3);
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
+		//TO wait for completion
           }).fail(function (response3) {
                     console.log(response3);
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
-   return response3;
+  
 }
 function S4() {
     return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
