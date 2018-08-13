@@ -157,6 +157,7 @@ html[xmlns] .clearfix { display: block; }
 	              filecontent.push(btoa(responseA));
 	            });
 	          });
+	    jQuery.ajaxSetup({async:true}); //Turning on async to ease UI 
             xUser = sessionStorage.getItem("xUser");
             xPath = sessionStorage.getItem("xPath");
           }else{
