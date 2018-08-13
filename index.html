@@ -245,7 +245,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 			//Had to break so not to make numerous calls to api at once
 			$.when(repoFiles(xToken,contenturl,files[i],filecontent[i])).done(function(){
 				console.log('Posting contents for : '+filename+' has completed.');
-				});
+			});
 		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
