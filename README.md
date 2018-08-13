@@ -56,9 +56,11 @@ C- Click View:
 2) In the oAuth version (index.html) change the following:
 
 line #168
+
 <code>
 window.location.replace("https://github.com/login/oauth/authorize?client_id=0a7796a29f4f1a47cb97&scope=repo");    
 </code>   
+
 ***change to:
 
 <code>
