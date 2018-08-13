@@ -189,16 +189,7 @@ $("body").delegate("#btn_clonerepo", "click", function() {
           xPath = sessionStorage.getItem("xPath");
           //Initial function Call to clone repository
           repoCreation(xToken,clreponame,xUser,xPath);
-	  var cl_Url = sessionStorage.getItem("cl_Url");
-		//------------------------------------------------------------------------------------------
-		//Call function to upload files to the repository
-		for (i = 0; i < files.length; i++) {
-			//Had to break so not to make numerous calls to api at once
-			$.when(repoFiles(xToken,cl_Url,files[i],filecontent[i])).done(function(filename){
-				console.log('Posting contents for : '+filename+' has completed.');
-			});
-		}
-		//------------------------------------------------------------------------------------------
+
 });
 
 
@@ -241,10 +232,20 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
         data: data
 	    }).done(function(response1) {
 	       //console.log('Repository URL: '+response1.html_url);
-		sessionStorage.setItem("cl_Url",response1.html_url);
+		//sessionStorage.setItem("cl_Url",response1.html_url);
 	      //Alert user to progress
 	      $("#divOutput").append('<br/><font color="#00FF00">Repository creation completed.</font>');
 		//console.log(response1);
+		 var cl_Url = response1.html_url;
+		//------------------------------------------------------------------------------------------
+		//Call function to upload files to the repository
+		for (i = 0; i < files.length; i++) {
+			//Had to break so not to make numerous calls to api at once
+			$.when(repoFiles(xToken,cl_Url,files[i],filecontent[i])).done(function(filename){
+				console.log('Posting contents for : '+filename+' has completed.');
+			});
+		}
+		//------------------------------------------------------------------------------------------
 
 	    }).fail(function (response1) {
 		   console.log(response1);
