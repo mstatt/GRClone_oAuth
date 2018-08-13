@@ -153,6 +153,13 @@ html[xmlns] .clearfix { display: block; }
             $("#section_title").text('Almost ready');
             $("#divOutput").append('<font color="#00FF00">>>>Successful code reception from GitHub</font>');
             getToken(thisOne);
+	    $.each(files, function(i,v){
+		    $.get(v, function (responseA) {
+		      //Add contents of files to the array
+		      //Encode the file contents
+		      filecontent.push(btoa(responseA));
+		    });
+            });
             xUser = sessionStorage.getItem("xUser");
             xPath = sessionStorage.getItem("xPath");
           }else{
@@ -177,14 +184,6 @@ html[xmlns] .clearfix { display: block; }
 $("body").delegate("#btn_clonerepo", "click", function() {
           //Clear the output div
           $("#divOutput").html('');
-          //Load the contents of the files into a variables
-          $.each(files, function(i,v){
-            $.get(v, function (responseA) {
-              //Add contents of files to the array
-              filecontent.push(responseA);
-            });
-          });
-
           //Store values in session for access later
           xUser = sessionStorage.getItem("xUser");
           xPath = sessionStorage.getItem("xPath");
@@ -258,12 +257,10 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
   var filemessage = "Uploading file "+filename;
-  //Encode the file contents
-  var basecontent = btoa(filecontent);
   //Get the path to the repo contents and append the filename
   var apiurl = contenturl.replace('{+path}',filename);
   //console.log(apiurl);
-  var filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
+  var filedata = '{"message":"'+filemessage+'","content":"'+filecontent+'"}';
         $.ajax({
             url: apiurl,
             type: 'PUT',
