@@ -119,12 +119,10 @@ html[xmlns] .clearfix { display: block; }
  <script type="text/javascript">
     $(function(){
       //Set up initial variables
-            var xToken;
-            var thisOne;
-            var xUser;
-            var xPath;
+            var xToken,thisOne,xUser,xPath;
+
                 //Set up our repo variables
-            var clreponame = "GRClone_oAuth_"+S4();
+            var clreponame = "GRClone_oAuth_"+S4(); //Assigned randon var to avoid conflict during testing
             //Array of file names
             var files = [ "index.php","README.md","index.html"];
             //Array for file contents matched with the filename array
