@@ -239,10 +239,10 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		 var cl_Url = response1.html_url;
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
-			for (i = 0; i < files.length; i++) {
-			    repoFiles(xToken,cl_Url,files[i],filecontent[i]);
-			}
-
+		    $.each(files, function(i,v){
+		      //console.log('Posting : '+v);
+			    setTimeout(repoFiles(xToken,cl_Url,v,filecontent[i]), 1000);
+		    });
 		//------------------------------------------------------------------------------------------
 
 	    }).fail(function (response1) {
@@ -256,15 +256,12 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 	    
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
-  var filemessage = "";
-  var apiurl = "";
-  var filedata = "";
-  filemessage = "Uploading file "+filename;
+  var filemessage = "Uploading file "+filename;
   var basecontent = btoa(filecontent);
   //Get the path to the repo contents and append the filename
-  apiurl = contenturl.replace('{+path}',filename);
+  var apiurl = contenturl.replace('{+path}',filename);
   //console.log(apiurl);
-  filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
+  var filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
         $.ajax({
             url: apiurl,
             type: 'PUT',
