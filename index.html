@@ -182,15 +182,13 @@ $("body").delegate("#btn_clonerepo", "click", function() {
             $.get(v, function (responseA) {
               //Add contents of files to the array
               filecontent.push(responseA);
+		filecontent[i] = filecontent[i].replace('0a7796a29f4f1a47cb97','<YOURCLIENTID>');
+		filecontent[i] = filecontent[i].replace('mstatt.000webhostapp.com','<YOURSECUREHOSTTEDPHPFILEURL>');
+		filecontent[i] = filecontent[i].replace('mstatt',xUser);
+		filecontent[i] = filecontent[i].replace('GRClone_oAuth',+clreponame); 
             });
           });
-	/*
-	filecontent[0] = filecontent[0].replace('0a7796a29f4f1a47cb97','<YOURCLIENTID>');
-	filecontent[2] = filecontent[2].replace('https://mstatt.000webhostapp.com/?code=','<YOURSECUREHOSTTEDPHPFILEURL>/?code=');
-	filecontent[1] = filecontent[1].replace('https://mstatt.000webhostapp.com/?code=','<YOURSECUREHOSTTEDPHPFILEURL>/?code=');
-	filecontent[1] = filecontent[1].replace('https://mstatt.github.io/GRClone_oAuth','https://'+xUser+'.github.io/'+clreponame);
-	filecontent[1] = filecontent[1].replace('https://yourusername.github.io/GRClone_oAuth/','https://'+xUser+'.github.io/'+clreponame); 
-	*/
+
           //Store values in session for access later
           xUser = sessionStorage.getItem("xUser");
           xPath = sessionStorage.getItem("xPath");
