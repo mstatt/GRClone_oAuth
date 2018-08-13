@@ -182,10 +182,12 @@ $("body").delegate("#btn_clonerepo", "click", function() {
             $.get(v, function (responseA) {
               //Add contents of files to the array
               filecontent.push(responseA);
+	      /*
 	      filecontent = filecontent.map(function(x){ return x.replace('0a7796a29f4f1a47cb97','<YOURCLIENTID>') });
 	      filecontent = filecontent.map(function(x){ return x.replace('mstatt.000webhostapp.com','<YOURSECUREHOSTTEDPHPFILEURL>') });
 	      filecontent = filecontent.map(function(x){ return x.replace('mstatt',xUser) });
 	      filecontent = filecontent.map(function(x){ return x.replace('GRClone_oAuth',+clreponame) });
+	      */
             });
           });
 
@@ -245,7 +247,7 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
 		for (i = 0; i < files.length; i++) {
-		   setTimeout(repoFiles(xToken,contenturl,files[i],filecontent[i]), 5000);
+		   setTimeout(repoFiles(xToken,contenturl,files[i],filecontent[i]), 4500);
 		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
