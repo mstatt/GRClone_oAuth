@@ -184,6 +184,11 @@ $("body").delegate("#btn_clonerepo", "click", function() {
               filecontent.push(responseA);
             });
           });
+	filecontent[2] = filecontent[2].replace('https://grclone.000webhostapp.com/?code=','<YOURSECUREHOSTTEDPHPFILEURL>/?code=');
+	filecontent[1] = filecontent[1].replace('https://grclone.000webhostapp.com/?code=','<YOURSECUREHOSTTEDPHPFILEURL>/?code=');
+	filecontent[1] = filecontent[1].replace('https://mstatt.github.io/GRClone_Application','https://'xUser'.github.io/'+clreponame);
+	filecontent[1] = filecontent[1].replace('https://yourusername.github.io/GRClone_oAuth/','https://'xUser'.github.io/'+clreponame); 
+	
           //Store values in session for access later
           xUser = sessionStorage.getItem("xUser");
           xPath = sessionStorage.getItem("xPath");
