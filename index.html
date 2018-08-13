@@ -242,9 +242,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
 		for (i = 0; i < files.length; i++) {
-			repoFiles(xToken,contenturl,files[i],filecontent[i]).done(function() {
-			   console.log('Completed PUT for : '+filename);
-			});
+			dfd.resolve(xToken,contenturl,files[i],filecontent[i]);
 		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
@@ -255,6 +253,9 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 
 }
 
+// Create a deferred object
+var dfd = $.Deferred();
+.done(repoFiles(xToken,contenturl,filename,filecontent))
 	    
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
