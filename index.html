@@ -201,11 +201,14 @@ function getToken(thisOne){
         //--------------------------------------------------------------------------------
           //Pass token back to github to get username for use with repository creation
           $.getJSON('https://api.github.com/user?access_token=' + xToken, function (user) {
-            //console.log(user);
+	    //Set session with username
             sessionStorage.setItem("xUser",user.login);
+	    //Alert user to progress
             $("#divOutput").append('<br/><font color="#00FF00">>>>Welcome.. '+user.login+'</font>');
+	    //Set session with user repos url
             sessionStorage.setItem("xPath",user.repos_url);
             $("#divOutput").append('<br/><font color="#00FF00">>>>'+user.repos_url+'</font>');
+            //Show clone process button 
             $("#btn_clonerepo").show();
             $("#section_title").html('<font color="#007F00">Authorization Success.</font>');
         });
@@ -263,7 +266,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		$("#btn_cloneview").show(); //Allow users to go to their new repo
                 $("#btn_clonerepo").hide(); //Hide the button for the cloning process
 		$("#section_title").html('<font color="#007F00">Cloning completed successfully.</font>');
-		$("#divOutput").append('<br/><font color="#00FF00">>>>This application has been cloned tou your repository.</font>');
+		$("#divOutput").append('<br/><font color="#00FF00">>>>This application has been cloned to your GitHub.</font>');
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
 		   console.log(response1);
