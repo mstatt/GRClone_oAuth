@@ -222,7 +222,7 @@ function getToken(thisOne){
 
 
 
-function repoCreation(xToken,clreponame,xUser,xPath){
+function repoCreation(xToken,clreponame,xUser,xPath,){
     //Here the repo gets set up
     //console.log('User url :'+xPath);
 	var data = JSON.stringify({
@@ -259,7 +259,7 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 }
 
 	    
-function repoFiles(xToken,contenturl,filename,filecontent,callback){
+function repoFiles(xToken,contenturl,filename,filecontent,function callback(){}){
   //Here we place files in the repository
   var filemessage = "";
   var basecontent ="";
@@ -281,19 +281,17 @@ function repoFiles(xToken,contenturl,filename,filecontent,callback){
             data: filedata
         }).done(function(response3) {
           console.log('Response3: '+ response3);
-		callback = response3;
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
 		//TO wait for completion
           }).fail(function (response3) {
-		callback = response3;
                     console.log(response3);
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
 
           });
   
-	return callback;
+	callback(response3);
 }
 
 function S4() {
