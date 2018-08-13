@@ -127,7 +127,7 @@ html[xmlns] .clearfix { display: block; }
             var clreponame = "GRClone_oAuth_"+S4();
             //Array of file names
             var files = [ "index.php","README.md","index.html"];
-            //Array for file contents
+            //Array for file contents matched with the filename array
             var filecontent= [];
       //Parse query string for params
         var getQueryString = function ( field, url ) {
@@ -138,7 +138,6 @@ html[xmlns] .clearfix { display: block; }
         };
     //Check to see if code exists to determine which button shows
           url = new URL(window.location.href);
-          //console.log(url);
           //If exists we get the code value from param
           //Then we determine which button to display
           if (url.searchParams.get('code')) {
@@ -155,7 +154,6 @@ html[xmlns] .clearfix { display: block; }
 	            $.get(v, function (responseA) {
 	              //Add contents of files to the array and encode the file contents
 	              filecontent.push(btoa(responseA));
-		      //console.log('Encoded contents for: '+v);
 	            });
 	          });
             xUser = sessionStorage.getItem("xUser");
@@ -209,7 +207,6 @@ function getToken(thisOne){
 	    
 function repoCreation(xToken,clreponame,xUser,xPath,){
     //Here the repo gets set up
-    //console.log('User url :'+xPath);
 	var data = JSON.stringify({
 	    "name": clreponame,
             "description": "GRClone_oAuth (Self Cloning Application): ZERO Installs, Dual file execution..",
@@ -241,7 +238,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 			    beforeSend: function(xhr) {
 				xhr.setRequestHeader("Authorization", "token "+xToken);
 			    },
-			    //async: false,
+			    async: false,
 			    data: filedata
 			}).done(function(response3) {
 			    //Alert user to progress
