@@ -239,11 +239,10 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		 var cl_Url = response1.html_url;
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
-		async function processArray(files){
 			for (i = 0; i < files.length; i++) {
-			    await delayedLong(repoFiles(xToken,cl_Url,files[i],filecontent[i]));
+			    repoFiles(xToken,cl_Url,files[i],filecontent[i]);
 			}
-		}
+
 		//------------------------------------------------------------------------------------------
 
 	    }).fail(function (response1) {
