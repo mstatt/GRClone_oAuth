@@ -282,7 +282,7 @@ async function UntilComplete(contenturl) {
     //This loop will wait for each next() to pass the next iteration
     for (var i = 0; i < files.length; i++) { 
         await new Promise(next=> {
-            someAsyncTask(repoFiles(xToken,contenturl,files[i],filecontent[i]), function(err, data){
+            repoFiles(xToken,contenturl,files[i],filecontent[i], function(err, data){
                 console.log('File generation completed');
                 next()
             })
