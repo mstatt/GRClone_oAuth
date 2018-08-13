@@ -241,7 +241,7 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 		//Call function to upload files to the repository
 		    $.each(files, function(i,v){
 		      //console.log('Posting : '+v);
-			    setTimeout(repoFiles(xToken,contenturl,v,filecontent[i]), 1000);
+			repoFiles(xToken,contenturl,v,filecontent[i]);
 		    });
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
