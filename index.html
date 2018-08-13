@@ -153,6 +153,8 @@ html[xmlns] .clearfix { display: block; }
             $("#section_title").text('Almost ready');
             $("#divOutput").append('<font color="#00FF00">>>>Successful code reception from GitHub</font>');
             getToken(thisOne);
+	    xUser = sessionStorage.getItem("xUser");
+            xPath = sessionStorage.getItem("xPath");
 	    $.each(files, function(i,v){
 		    $.get(v, function (responseA) {
 		      //Add contents of files to the array
@@ -160,8 +162,7 @@ html[xmlns] .clearfix { display: block; }
 		      filecontent.push(btoa(responseA));
 		    });
             });
-            xUser = sessionStorage.getItem("xUser");
-            xPath = sessionStorage.getItem("xPath");
+            
           }else{
             $("#btn_oAuth").show();
 	    $("#btn_cloneview").hide();
@@ -170,7 +171,7 @@ html[xmlns] .clearfix { display: block; }
 
           //Launch oAuth page passing over our Application ClientID
         $("body").delegate("#btn_oAuth", "click", function() {
-          window.location.replace("https://github.com/login/oauth/authorize?client_id=0a7796a29f4f1a47cb97&scope=repo");
+          window.location.replace("https://github.com/login/oauth/authorize?client_id=0a7796a29f4f1a47cb97&scope=public_repos");
         });
 
         $("body").delegate("#btn_cloneview", "click", function() {
