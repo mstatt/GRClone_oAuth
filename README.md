@@ -54,10 +54,26 @@ C- Click View:
 ***oAuth requires you to have a secure web host account that can execute your index.php page ***
 1) Upload the index.php page there. (after adding your cliend_id and client_secrey_key)
 2) In the oAuth version (index.html) change the following:
+
+line #168
+
+<code>
+window.location.replace("https://github.com/login/oauth/authorize?client_id=06bdc4f456f1d24fb8bb&scope=repo");    
+</code>
+
+***change to:
+
+<code>
+window.location.replace("https://github.com/login/oauth/authorize?client_id=<YOURCLIENTID>&scope=repo");    
+</code>
+    
+
 line #191
+
 <code>
 $.get('https://grclone.000webhostapp.com/?code=' + thisOne, function (data) {
 </code>
+
 
 ***change to:
 
@@ -68,13 +84,6 @@ $.get('https://your_hosted_url/?code=' + thisOne, function (data) {
 
 ## You are ready to go......
 Go to your https://yourusername.github.io/GRClone_oAuth/ URL and test it out.
-
-***Be sure to change the line #130 to something other than "GRClone_oAuth" to avoid collisions in your own repository as it already exists***
-<code>
-    var clreponame = "GRClone_oAuth";
-</code>    
-
-
 
 
 
