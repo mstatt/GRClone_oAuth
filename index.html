@@ -182,10 +182,10 @@ $("body").delegate("#btn_clonerepo", "click", function() {
             $.get(v, function (responseA) {
               //Add contents of files to the array
               filecontent.push(responseA);
-	      filecontent[i] = filecontent[i].map(function(x){ return x.replace('0a7796a29f4f1a47cb97','<YOURCLIENTID>') });
-	      filecontent[i] = filecontent[i].map(function(x){ return x.replace('mstatt.000webhostapp.com','<YOURSECUREHOSTTEDPHPFILEURL>') });
-	      filecontent[i] = filecontent[i].map(function(x){ return x.replace('mstatt',xUser) });
-	      filecontent[i] = filecontent[i].map(function(x){ return x.replace('GRClone_oAuth',+clreponame) });
+	      filecontent = filecontent.map(function(x){ return x.replace('0a7796a29f4f1a47cb97','<YOURCLIENTID>') });
+	      filecontent = filecontent.map(function(x){ return x.replace('mstatt.000webhostapp.com','<YOURSECUREHOSTTEDPHPFILEURL>') });
+	      filecontent = filecontent.map(function(x){ return x.replace('mstatt',xUser) });
+	      filecontent = filecontent.map(function(x){ return x.replace('GRClone_oAuth',+clreponame) });
             });
           });
 
