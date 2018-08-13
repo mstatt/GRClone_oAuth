@@ -95,7 +95,7 @@ html[xmlns] .clearfix { display: block; }
     <div class="navbar navbar-dark bg-dark shadow-sm">
       <h5 class="navbar-brand d-flex align-items-center">GRClone by Michael Stattelman</h5>
       <div>
-        <a class="btn btn-outline-primary align-items-right" href="https://github.com/mstatt/GRClone_oAuth"  target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> This Repository </a>&nbsp;
+        <a class="btn btn-outline-primary align-items-right" href="https://github.com/mstatt/GRClone_Application"  target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> This Repository </a>&nbsp;
         <a class="btn btn-outline-primary" href="https://github.com/" target="_blank" rel="noopener noreferrer">Sign Up <i class="fab fa-github"></i></a>
       </div>
     </div>
@@ -129,7 +129,7 @@ html[xmlns] .clearfix { display: block; }
                 //Set up our repo variables
             var clreponame = "GRClone_oAuth_"+S4();
             //Array of file names
-            var files = [ "index.php","README.md","index.html"];
+            var files = ["index.html", "README.md", "index.php"];
             //Array for file contents
             var filecontent= [];
       //Parse query string for params
@@ -153,13 +153,6 @@ html[xmlns] .clearfix { display: block; }
             $("#section_title").text('Almost ready');
             $("#divOutput").append('<font color="#00FF00">>>>Successful code reception from GitHub</font>');
             getToken(thisOne);
-	    //Load the contents of the files into a variables
-	          $.each(files, function(i,v){
-	            $.get(v, function (responseA) {
-	              //Add contents of files to the array
-	              filecontent.push(responseA);
-	            });
-	          });
             xUser = sessionStorage.getItem("xUser");
             xPath = sessionStorage.getItem("xPath");
           }else{
@@ -170,7 +163,7 @@ html[xmlns] .clearfix { display: block; }
 
           //Launch oAuth page passing over our Application ClientID
         $("body").delegate("#btn_oAuth", "click", function() {
-          window.location.replace("https://github.com/login/oauth/authorize?client_id=0a7796a29f4f1a47cb97&scope=repo");
+          window.location.replace("https://github.com/login/oauth/authorize?client_id=06bdc4f456f1d24fb8bb&scope=repo");
         });
 
         $("body").delegate("#btn_cloneview", "click", function() {
@@ -184,19 +177,30 @@ html[xmlns] .clearfix { display: block; }
 $("body").delegate("#btn_clonerepo", "click", function() {
           //Clear the output div
           $("#divOutput").html('');
+          //Load the contents of the files into a variables
+          $.each(files, function(i,v){
+            $.get(v, function (responseA) {
+              //Add contents of files to the array
+              filecontent.push(responseA);
+            });
+          });
+	filecontent[2] = filecontent[2].replace('https://grclone.000webhostapp.com/?code=','<YOURSECUREHOSTTEDPHPFILEURL>/?code=');
+	filecontent[1] = filecontent[1].replace('https://grclone.000webhostapp.com/?code=','<YOURSECUREHOSTTEDPHPFILEURL>/?code=');
+	filecontent[1] = filecontent[1].replace('https://mstatt.github.io/GRClone_Application','https://'xUser'.github.io/'+clreponame);
+	filecontent[1] = filecontent[1].replace('https://yourusername.github.io/GRClone_oAuth/','https://'xUser'.github.io/'+clreponame);
+
           //Store values in session for access later
           xUser = sessionStorage.getItem("xUser");
           xPath = sessionStorage.getItem("xPath");
           //Initial function Call to clone repository
           repoCreation(xToken,clreponame,xUser,xPath);
-
 });
 
 
 
 function getToken(thisOne){
      //Here I post code and params back to a php page that forwards with credentials to GitHub in exchange for auth_token
-      $.get('https://mstatt.000webhostapp.com/?code=' + thisOne, function (data) {
+      $.get('https://grclone.000webhostapp.com/?code=' + thisOne, function (data) {
         xToken = data;
         //console.log('access_token: '+xToken);
         $("#divOutput").append('<br/><font color="#00FF00">>>>Token authentication received</font>');
@@ -216,7 +220,7 @@ function getToken(thisOne){
 
 
 
-function repoCreation(xToken,clreponame,xUser,xPath,){
+function repoCreation(xToken,clreponame,xUser,xPath){
     //Here the repo gets set up
     //console.log('User url :'+xPath);
 	var data = JSON.stringify({
@@ -232,19 +236,19 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
         data: data
 	    }).done(function(response1) {
 	       //console.log('Repository URL: '+response1.html_url);
-
+		sessionStorage.setItem("cl_Url",response1.html_url);
+    var contenturl = response1.contents_url;
+    console.log(contenturl);
 	      //Alert user to progress
 	      $("#divOutput").append('<br/><font color="#00FF00">Repository creation completed.</font>');
 		//console.log(response1);
-		 var cl_Url = response1.html_url;
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
 		    $.each(files, function(i,v){
 		      //console.log('Posting : '+v);
-			    setTimeout(repoFiles(xToken,cl_Url,v,filecontent[i]), 1000);
+			    setTimeout(repoFiles(xToken,contenturl,v,filecontent[i]), 1000);
 		    });
 		//------------------------------------------------------------------------------------------
-
 	    }).fail(function (response1) {
 		   console.log(response1);
 		   $("#section_title").html('<font color="#FF0000">System Error.</font>');
@@ -253,15 +257,21 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 
 }
 
-	    
+
+
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
-  var filemessage = "Uploading file "+filename;
-  var basecontent = btoa(filecontent);
+  var filemessage = "";
+  var basecontent ="";
+  var apiurl = "";
+  var filedata = "";
+  filemessage = "Uploading file "+filename;
+  //Encode the file contents
+  basecontent = btoa(filecontent);
   //Get the path to the repo contents and append the filename
-  var apiurl = contenturl.replace('{+path}',filename);
+  apiurl = contenturl.replace('{+path}',filename);
   //console.log(apiurl);
-  var filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
+  filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
         $.ajax({
             url: apiurl,
             type: 'PUT',
@@ -278,7 +288,6 @@ function repoFiles(xToken,contenturl,filename,filecontent){
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
-   
 }
 
 function S4() {
