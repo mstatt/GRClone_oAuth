@@ -58,7 +58,7 @@ C- Click View:
 line #168
 
 <code>
-window.location.replace("https://github.com/login/oauth/authorize?client_id=06bdc4f456f1d24fb8bb&scope=repo");    
+window.location.replace("https://github.com/login/oauth/authorize?client_id=0a7796a29f4f1a47cb97&scope=repo");    
 </code>
 
 ***change to:
@@ -71,7 +71,7 @@ window.location.replace("https://github.com/login/oauth/authorize?client_id=<YOU
 line #191
 
 <code>
-$.get('https://grclone.000webhostapp.com/?code=' + thisOne, function (data) {
+$.get('https://mstatt.000webhostapp.com/?code=' + thisOne, function (data) {
 </code>
 
 
@@ -88,6 +88,6 @@ Go to your https://yourusername.github.io/GRClone_oAuth/ URL and test it out.
 
 
 # Working Demo:
-https://mstatt.github.io/GRClone_Application
+https://mstatt.github.io/GRClone_oAuth
 
 
