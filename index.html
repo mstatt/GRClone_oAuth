@@ -247,7 +247,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
 		for (i = 0; i < files.length; i++) {
-		 var r = repoFiles(xToken,contenturl,files[i],filecontent[i]);
+		 repoFiles(xToken,contenturl,files[i],filecontent[i]);
 		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
@@ -288,7 +288,6 @@ function repoFiles(xToken,contenturl,filename,filecontent,function callback(){})
                     console.log(response3);
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
-
           });
   
 	callback(response3);
