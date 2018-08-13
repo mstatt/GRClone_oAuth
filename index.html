@@ -253,19 +253,16 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 }
 
 	    
-function repoFiles(xToken,contenturl,filename,filecontent){
+function repoFiles(xToken,contenturl,filename,filecontent,_callback){
   //Here we place files in the repository
-	var deferred = $.Deferred();
-  console.log('Posting contents for : '+filename);
   var filemessage = "";
-  var basecontent ="";
   var apiurl = "";
   var filedata = "";
   filemessage = "Uploading file "+filename;
-  basecontent = btoa(filecontent);
+  var basecontent = btoa(filecontent);
   //Get the path to the repo contents and append the filename
   apiurl = contenturl.replace('{+path}',filename);
-  console.log('Next URL: '+apiurl);
+  //console.log(apiurl);
   filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
         $.ajax({
             url: apiurl,
@@ -276,14 +273,16 @@ function repoFiles(xToken,contenturl,filename,filecontent){
             data: filedata
         }).done(function(response3) {
           //console.log('Response3: '+ response3);
+		_callback();
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
           }).fail(function (response3) {
                     console.log(response3);
+		_callback();
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
-   return deferred.promise();
+   
 }
 
 function S4() {
