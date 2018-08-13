@@ -232,10 +232,33 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 	      $("#divOutput").append('<br/><font color="#00FF00">Repository creation completed.</font>');
 		//console.log(response1);
 		//------------------------------------------------------------------------------------------
-		//Call function to upload files to the repository
+		//Loop to load files into to the repository
 		for (i = 0; i < files.length; i++) {
-		repoFiles(xToken,contenturl,files[i],filecontent[i]);
-
+		  //repoFiles(xToken,contenturl,files[i],filecontent[i]);
+		  console.log('Posting contents for : '+filename);
+		  var filemessage = "Uploading file "+files[i];
+		  //Get the path to the repo contents and append the filename
+		  var apiurl = contenturl.replace('{+path}',files[i]);
+		  console.log('Next URL: '+apiurl);
+		  var  filedata = '{"message":"'+filemessage+'","content":"'+filecontent[i]+'"}';
+			$.ajax({
+			    url: apiurl,
+			    type: 'PUT',
+			    beforeSend: function(xhr) {
+				xhr.setRequestHeader("Authorization", "token "+xToken);
+			    },
+			    async: false,
+			    data: filedata
+			}).done(function(response3) {
+			  //console.log('Response3: '+ response3);
+			    //Alert user to progress
+			  $("#divOutput").append('<br/><font color="#00FF00">>>>'+files[i]+' completed.</font>');
+				//TO wait for completion
+			  }).fail(function (response3) {
+				    //console.log(response3);
+				    $("#section_title").html('<font color="#FF0000">System Error.</font>');
+				    $("#divOutput").append('<font color="#FF0000">>>>'+files[i]+' creation failed.</font>');
+			  });
 		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
@@ -245,38 +268,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 	    });
 }
 	    
-function repoFiles(xToken,contenturl,filename,filecontent){
-  //Here we place files in the repository
-  console.log('Posting contents for : '+filename);
-  var filemessage = "";
-  var basecontent ="";
-  var apiurl = "";
-  var filedata = "";
-  filemessage = "Uploading file "+filename;
-  //Get the path to the repo contents and append the filename
-  apiurl = contenturl.replace('{+path}',filename);
-  console.log('Next URL: '+apiurl);
-  filedata = '{"message":"'+filemessage+'","content":"'+filecontent+'"}';
-        $.ajax({
-            url: apiurl,
-            type: 'PUT',
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader("Authorization", "token "+xToken);
-            },
-	    async: false,
-            data: filedata
-        }).done(function(response3) {
-          //console.log('Response3: '+ response3);
-            //Alert user to progress
-          $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
-		//TO wait for completion
-          }).fail(function (response3) {
-                    //console.log(response3);
-                    $("#section_title").html('<font color="#FF0000">System Error.</font>');
-                    $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
-          });
-  
-}
+
 	    
    
 	    
