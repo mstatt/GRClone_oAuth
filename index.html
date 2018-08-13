@@ -268,7 +268,7 @@ function repoFiles(xToken,contenturl,filename,filecontent){
   filedata = '{"message":"'+filemessage+'","content":"'+filecontent+'"}';
         $.ajax({
             url: apiurl,
-            type: 'POST',
+            type: 'PUT',
             beforeSend: function(xhr) {
                 xhr.setRequestHeader("Authorization", "token "+xToken);
             },
