@@ -148,7 +148,7 @@ html[xmlns] .clearfix { display: block; }
             $("#divOutput").show();
             $("#section_title").text('Almost ready');
             $("#divOutput").append('<font color="#00FF00">>>>Successful code reception from GitHub</font>');
-	   jQuery.ajaxSetup({async:false});
+	   jQuery.ajaxSetup({async:false}); //Turning off async to ensure proceses complete without collision on GitHub
             getToken(thisOne);
 	    //Load the contents of the files into a variables
 	          $.each(files, function(i,v){
