@@ -259,7 +259,7 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 }
 
 	    
-function repoFiles(xToken,contenturl,filename,filecontent,callback){
+function repoFiles(function(){xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
   var filemessage = "";
   var basecontent ="";
@@ -290,8 +290,8 @@ function repoFiles(xToken,contenturl,filename,filecontent,callback){
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
 
           });
-	callback();
-}
+
+});
 
 function S4() {
     return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
