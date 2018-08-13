@@ -258,7 +258,9 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 
 }
 
-function repoFiles(function callback(){},xToken,contenturl,filename,filecontent){
+ function callback1(e){return e}
+	    
+function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
   var filemessage = "";
   var basecontent ="";
@@ -282,7 +284,8 @@ function repoFiles(function callback(){},xToken,contenturl,filename,filecontent)
           console.log('Response3: '+ response3);
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
-		callback(response3);
+		//TO wait for completion
+		callback1(response3);
           }).fail(function (response3) {
                     console.log(response3);
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
