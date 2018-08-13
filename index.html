@@ -247,7 +247,7 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
 		for (i = 0; i < files.length; i++) {
-		   setTimeout(repoFiles(xToken,contenturl,files[i],filecontent[i]), 7500);
+		   setTimeout(holdon(xToken,contenturl,files[i],filecontent[i]), 1500);
 		}
 		//------------------------------------------------------------------------------------------
 	    }).fail(function (response1) {
@@ -258,6 +258,11 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 
 }
 
+function holdon(xToken,contenturl,filename,filecontent){
+	var r;
+	repoFiles(xToken,contenturl,filename,filecontent);
+	return r;
+}
 
 
 function repoFiles(xToken,contenturl,filename,filecontent){
