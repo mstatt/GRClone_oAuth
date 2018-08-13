@@ -148,7 +148,7 @@ html[xmlns] .clearfix { display: block; }
             thisOne = getQueryString('code');
             //Determine which button to display
             $("#btn_oAuth").hide();
-	          $("#btn_cloneview").hide();
+	    $("#btn_cloneview").hide();
             $("#divOutput").show();
             $("#section_title").text('Almost ready');
             $("#divOutput").append('<font color="#00FF00">>>>Successful code reception from GitHub</font>');
@@ -157,7 +157,7 @@ html[xmlns] .clearfix { display: block; }
             xPath = sessionStorage.getItem("xPath");
           }else{
             $("#btn_oAuth").show();
-	          $("#btn_cloneview").hide();
+	    $("#btn_cloneview").hide();
             $("#btn_clonerepo").hide();
           }
 
@@ -220,7 +220,7 @@ function repoCreation(xToken,clreponame,xUser,xPath){
     //Here the repo gets set up
     //console.log('User url :'+xPath);
 	var data = JSON.stringify({
-		"name": clreponame,
+	    "name": clreponame,
             "description": "GRClone_oAuth (Self Cloning Application): ZERO Installs, Dual file execution..",
             "homepage": 'https://github.com/'+xUser+'/'+clreponame,
             "private": false,
@@ -233,8 +233,8 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 	    }).done(function(response1) {
 	       //console.log('Repository URL: '+response1.html_url);
 		sessionStorage.setItem("cl_Url",response1.html_url);
-    var contenturl = response1.contents_url;
-    console.log(contenturl);
+		var contenturl = response1.contents_url;
+		//console.log(contenturl);
 	      //Alert user to progress
 	      $("#divOutput").append('<br/><font color="#00FF00">Repository creation completed.</font>');
 		//console.log(response1);
@@ -257,17 +257,13 @@ function repoCreation(xToken,clreponame,xUser,xPath){
 
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
-  var filemessage = "";
-  var basecontent ="";
-  var apiurl = "";
-  var filedata = "";
-  filemessage = "Uploading file "+filename;
+  var filemessage = "Uploading file "+filename;
   //Encode the file contents
-  basecontent = btoa(filecontent);
+  var basecontent = btoa(filecontent);
   //Get the path to the repo contents and append the filename
-  apiurl = contenturl.replace('{+path}',filename);
+  var apiurl = contenturl.replace('{+path}',filename);
   //console.log(apiurl);
-  filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
+  var filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
         $.ajax({
             url: apiurl,
             type: 'PUT',
