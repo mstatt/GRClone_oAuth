@@ -155,13 +155,6 @@ html[xmlns] .clearfix { display: block; }
             getToken(thisOne);
 	    xUser = sessionStorage.getItem("xUser");
             xPath = sessionStorage.getItem("xPath");
-	    $.each(files, function(i,v){
-		    $.get(v, function (responseA) {
-		      //Add contents of files to the array
-		      //Encode the file contents
-		      filecontent.push(btoa(responseA));
-		    });
-            });
             
           }else{
             $("#btn_oAuth").show();
@@ -179,7 +172,13 @@ html[xmlns] .clearfix { display: block; }
           var cl_Url = sessionStorage.getItem("cl_Url");
           window.location.replace(cl_Url);
         });
-
+	    $.each(files, function(i,v){
+		    $.get(v, function (responseA) {
+		      //Add contents of files to the array
+		      //Encode the file contents
+		      filecontent.push(btoa(responseA));
+		    });
+            });
 
         //Clone repository process
 $("body").delegate("#btn_clonerepo", "click", function() {
