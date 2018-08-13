@@ -157,9 +157,7 @@ html[xmlns] .clearfix { display: block; }
 	          $.each(files, function(i,v){
 	            $.get(v, function (responseA) {
 	              //Add contents of files to the array
-	              // and encode the file contents
-	              filecontent.push(btoa(responseA));
-		      console.log('Encoded contents for: '+v);
+	              filecontent.push(responseA);
 	            });
 	          });
             xUser = sessionStorage.getItem("xUser");
@@ -243,7 +241,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		//Call function to upload files to the repository
 		for (i = 0; i < files.length; i++) {
 			//Had to break so not to make numerous calls to api at once
-			$.when(repoFiles(xToken,contenturl,files[i],filecontent[i])).done(function(){
+			$.when(repoFiles(xToken,contenturl,files[i],filecontent[i])).done(function(filename){
 				console.log('Posting contents for : '+filename+' has completed.');
 			});
 		}
@@ -265,10 +263,11 @@ function repoFiles(xToken,contenturl,filename,filecontent){
   var apiurl = "";
   var filedata = "";
   filemessage = "Uploading file "+filename;
+  basecontent = btoa(filecontent);
   //Get the path to the repo contents and append the filename
   apiurl = contenturl.replace('{+path}',filename);
   console.log('Next URL: '+apiurl);
-  filedata = '{"message":"'+filemessage+'","content":"'+filecontent+'"}';
+  filedata = '{"message":"'+filemessage+'","content":"'+basecontent+'"}';
         $.ajax({
             url: apiurl,
             type: 'PUT',
