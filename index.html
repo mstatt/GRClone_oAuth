@@ -240,10 +240,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		//------------------------------------------------------------------------------------------
 		//Call function to upload files to the repository
 		for (i = 0; i < files.length; i++) {
-			//Had to break so not to make numerous calls to api at once
-			$.when(repoFiles(xToken,cl_Url,files[i],filecontent[i])).done(function(filename){
-				console.log('Posting contents for : '+filename+' has completed.');
-			});
+			repoFiles(xToken,cl_Url,files[i],filecontent[i])
 		}
 		//------------------------------------------------------------------------------------------
 
@@ -258,6 +255,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 	    
 function repoFiles(xToken,contenturl,filename,filecontent){
   //Here we place files in the repository
+	var deferred = $.Deferred();
   console.log('Posting contents for : '+filename);
   var filemessage = "";
   var basecontent ="";
@@ -280,13 +278,12 @@ function repoFiles(xToken,contenturl,filename,filecontent){
           //console.log('Response3: '+ response3);
             //Alert user to progress
           $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
-		//TO wait for completion
           }).fail(function (response3) {
                     console.log(response3);
                     $("#section_title").html('<font color="#FF0000">System Error.</font>');
                     $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
           });
-  
+   return deferred.promise();
 }
 
 function S4() {
