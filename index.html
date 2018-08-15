@@ -146,16 +146,16 @@ html[xmlns] .clearfix { display: block; }
             $("#divOutput").show();
             $("#section_title").text('Almost ready');
             $("#divOutput").append('<font color="#00FF00">>>>Successful code reception from GitHub</font>');
-	   jQuery.ajaxSetup({async:false}); //Turning off async to ensure proceses complete without collision on GitHub
+	   //jQuery.ajaxSetup({async:false}); //Turning off async to ensure proceses complete without collision on GitHub
             getToken(thisOne);
 	    //Load the contents of the files into a variables
 	          $.each(files, function(i,v){
 	            $.get(v, function (responseA) {
 	              //Add contents of files to the array and encode the file contents
-	              filecontent.push(btoa(responseA));
+	              await filecontent.push(btoa(responseA));
 	            });
 	          });
-	    jQuery.ajaxSetup({async:true}); //Turning on async to ease UI 
+	    //jQuery.ajaxSetup({async:true}); //Turning on async to ease UI 
             xUser = sessionStorage.getItem("xUser");
             xPath = sessionStorage.getItem("xPath");
           }else{
@@ -243,25 +243,7 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 		//Loop to load files into to the repository
 		for (i = 0; i < files.length; i++) {
 		  //console.log('Posting contents for : '+files[i]);
-		  var filemessage = "Uploading file "+files[i];
-		  //Get the path to the repo contents and append the filename
-		  var  filedata = '{"message":"'+filemessage+'","content":"'+filecontent[i]+'"}';
-			$.ajax({
-			    url: contenturl.replace('{+path}',files[i]),
-			    type: 'PUT',
-			    beforeSend: function(xhr) {
-				xhr.setRequestHeader("Authorization", "token "+xToken);
-			    },
-			    async: false,
-			    data: filedata
-			}).done(function(response3) {
-			    //Alert user to progress
-			  $("#divOutput").append('<br/><font color="#00FF00">>>>'+files[i]+' completed.</font>');
-			  }).fail(function (response3) {
-				    //console.log(response3);
-				    $("#section_title").html('<font color="#FF0000">System Error.</font>');
-				    $("#divOutput").append('<font color="#FF0000">>>>'+files[i]+' creation failed.</font>');
-			  });
+                    await fileToRepo(xToken,files[i],filecontent[i],contenturl);
 		}
 		$("#btn_cloneview").show(); //Allow users to go to their new repo
                 $("#btn_clonerepo").hide(); //Hide the button for the cloning process
@@ -276,6 +258,28 @@ function repoCreation(xToken,clreponame,xUser,xPath,){
 }
 	    
 
+//File process function
+function fileToRepo(xToken,filename,filecontent,contenturl){
+      var filemessage = "Uploading file "+filename;
+      //Get the path to the repo contents and append the filename
+      var  filedata = '{"message":"'+filemessage+'","content":"'+filecontent+'"}';
+      $.ajax({
+          url: contenturl.replace('{+path}',filename),
+          type: 'PUT',
+          beforeSend: function(xhr) {
+        xhr.setRequestHeader("Authorization", "token "+xToken);
+          },
+          //async: false,
+          data: filedata
+      }).done(function(response3) {
+          //Alert user to progress
+        $("#divOutput").append('<br/><font color="#00FF00">>>>'+filename+' completed.</font>');
+        }).fail(function (response3) {
+            //console.log(response3);
+            $("#section_title").html('<font color="#FF0000">System Error.</font>');
+            $("#divOutput").append('<font color="#FF0000">>>>'+filename+' creation failed.</font>');
+        });
+}
 	    
    
 	    
